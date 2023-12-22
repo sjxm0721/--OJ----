@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <BasicLayout></BasicLayout>
+    <template v-if="route.path.startsWith('/user')">
+      <router-view></router-view>
+    </template>
+    <template v-else>
+      <BasicLayout></BasicLayout>
+    </template>
   </div>
 </template>
 
@@ -12,15 +17,15 @@
 <script lang="ts" setup>
 import BasicLayout from "@/layouts/BasicLayout.vue";
 import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import ACCESS_ENUM from "./access/accessEnum";
+import { useRoute } from "vue-router";
 
-const router = useRouter();
-const store = useStore();
+const route = useRoute();
 
 /**
- * 全局初始化函数，有全局单次调用的代码，都可以写到这里
+ * 全局import {useRoute} from "vue-ro
+ *
+ * const route = useR
+ * 初始化函数，有全局单次调用的代码，都可以写到这里
  */
 const doInit = () => {
   console.log("hello 欢迎来到我的项目");
@@ -28,16 +33,5 @@ const doInit = () => {
 
 onMounted(() => {
   doInit();
-});
-
-router.beforeEach((to, from, next) => {
-  //仅管理员可见
-  if (to.meta.access === ACCESS_ENUM.ADMIN) {
-    if (store.state.user.loginUser?.userRole !== ACCESS_ENUM.ADMIN) {
-      next("/noAuth");
-      return;
-    }
-  }
-  next();
 });
 </script>

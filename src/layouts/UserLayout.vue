@@ -1,8 +1,11 @@
 <template>
-  <div id="basic-layout">
+  <div id="user-layout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <GlobalHeader></GlobalHeader>
+        <a-space>
+          <img src="../assets/oj-logo.svg" class="logo" />
+          <div>鱼 OJ</div>
+        </a-space>
       </a-layout-header>
       <a-layout-content class="content">
         <router-view></router-view>
@@ -12,25 +15,28 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import GlobalHeader from "@/components/GlobalHeader.vue";
-</script>
+<script lang="ts" setup></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#basic-layout {
+#user-layout {
+  text-align: center;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
+    0% 0% / 100% 100%;
 }
-#basic-layout .header {
+
+#user-layout .logo {
+  width: 64px;
+  height: 64px;
+}
+#user-layout .header {
   margin-bottom: 16px;
-  box-shadow: #eee 1px 1px 5px;
 }
-#basic-layout .content {
-  background: linear-gradient(to right, #fefefe, #fff);
+#user-layout .content {
   margin-bottom: 16px;
   padding: 20px;
 }
-#basic-layout .footer {
-  background: #efefef;
+#user-layout .footer {
   padding: 16px;
   position: absolute;
   bottom: 0;
