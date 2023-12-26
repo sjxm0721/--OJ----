@@ -19,7 +19,7 @@
         <a-space direction="vertical" style="min-width: 480px">
           <a-form-item field="judgeConfig.timeLimit" label="时间限制">
             <a-input-number
-              v-model="form.judgeConfig![0].timeLimit"
+              v-model="form.judgeConfig!.timeLimit"
               placeholder="请输入时间限制"
               mode="button"
               size="large"
@@ -29,7 +29,7 @@
           </a-form-item>
           <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">
             <a-input-number
-              v-model="form.judgeConfig![0].stackLimit"
+              v-model="form.judgeConfig!.stackLimit"
               placeholder="请输入堆栈限制"
               mode="button"
               size="large"
@@ -39,7 +39,7 @@
           </a-form-item>
           <a-form-item field="judgeConfig.memoryLimit" label="内存限制">
             <a-input-number
-              v-model="form.judgeConfig![0].memoryLimit"
+              v-model="form.judgeConfig!.memoryLimit"
               placeholder="请输入内存限制"
               mode="button"
               size="large"
@@ -119,13 +119,12 @@ let form = ref({
       output: "",
     },
   ],
-  judgeConfig: [
-    {
-      memoryLimit: 1000,
-      stackLimit: 1000,
-      timeLimit: 1000,
-    },
-  ],
+  judgeConfig: {
+    memoryLimit: 1000,
+    stackLimit: 1000,
+    timeLimit: 1000,
+  },
+
   tags: [],
   title: "",
 });
@@ -155,13 +154,11 @@ const loadData = async () => {
       form.value.tags = JSON.parse(form.value.tags as any);
     }
     if (!form.value.judgeConfig) {
-      form.value.judgeConfig = [
-        {
-          memoryLimit: 1000,
-          stackLimit: 1000,
-          timeLimit: 1000,
-        },
-      ];
+      form.value.judgeConfig = {
+        memoryLimit: 1000,
+        stackLimit: 1000,
+        timeLimit: 1000,
+      };
     }
   } else {
     Message.error("创建失败:" + res.message);

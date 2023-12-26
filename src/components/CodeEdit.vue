@@ -1,18 +1,24 @@
 <template>
-  <div id="code-editor" ref="codeEditorRef" style="min-height: 400px"></div>
+  <div
+    id="code-editor"
+    ref="codeEditorRef"
+    style="min-height: 500px; height: 70vh"
+  ></div>
 </template>
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { ref, onMounted, toRaw, withDefaults, defineProps } from "vue";
+import { ref, onMounted, toRaw, withDefaults, defineProps, watch } from "vue";
 
 interface Props {
   value: string;
+  language: string;
   handleChange: (v: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
+  language: () => "java",
   handleChange: (v: string) => {
     console.log(v);
   },
@@ -27,7 +33,7 @@ onMounted(() => {
   }
   codeEditor.value = monaco.editor.create(codeEditorRef.value, {
     value: props.value,
-    language: "java",
+    language: props.language,
     minimap: {
       enabled: true,
     },
@@ -35,6 +41,23 @@ onMounted(() => {
     theme: "vs-dark",
     automaticLayout: true,
   });
+
+  //监听语言的改变
+  watch(
+    () => props.language,
+    () => {
+      codeEditor.value = monaco.editor.create(codeEditorRef.value, {
+        value: props.value,
+        language: props.language,
+        minimap: {
+          enabled: false,
+        },
+        readOnly: false,
+        theme: "vs-dark",
+        automaticLayout: true,
+      });
+    }
+  );
 
   //编辑 监听内容变化
   codeEditor.value.onDidChangeModelContent(() => {

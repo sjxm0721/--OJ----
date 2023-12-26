@@ -51,13 +51,14 @@ router.afterEach((to, from, failure) => {
 const store = useStore();
 
 //展示在菜单的路由数组
-const loginUser = store.state.user?.loginUser;
 const visibleRoutes = computed(() => {
   return routes.filter((item, index) => {
     if (item.meta?.hideInMenu) {
       return false;
     }
-    if (!checkAccess(loginUser, item?.meta?.access as string)) {
+    if (
+      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
+    ) {
       return false;
     }
     return true;

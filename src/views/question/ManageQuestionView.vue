@@ -7,9 +7,10 @@
       :pagination="{
         showTotal: true,
         pageSize: searchParams.pageSize,
-        current: searchParams.pageNum,
+        current: searchParams.current,
         total,
       }"
+      @page-change="onPageChange"
     >
       <template #optional="{ record }">
         <a-space>
@@ -24,7 +25,7 @@
 <script setup lang="ts">
 import { Message } from "@arco-design/web-vue";
 import { Question, QuestionControllerService } from "../../../generated";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 
 //获取表格实例
@@ -36,7 +37,7 @@ const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({
   pageSize: 10,
-  pageNum: 1,
+  current: 1,
 });
 
 const loadData = async () => {
@@ -50,6 +51,11 @@ const loadData = async () => {
     Message.error("加载失败" + res.message);
   }
 };
+
+//监听searchParams变量，改变时触发页面重新加载
+watchEffect(() => {
+  loadData();
+});
 
 /**
  * 页面加载时请求数据
@@ -130,6 +136,14 @@ const doUpdate = (question: Question) => {
       id: question.id,
     },
   });
+};
+
+//页数修改的回调函数
+const onPageChange = (page: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    current: page,
+  };
 };
 </script>
 
