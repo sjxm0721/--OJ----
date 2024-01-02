@@ -159,6 +159,8 @@ const loadData = async () => {
         stackLimit: 1000,
         timeLimit: 1000,
       };
+    } else {
+      form.value.judgeConfig = JSON.parse(form.value.judgeConfig as any);
     }
   } else {
     Message.error("创建失败:" + res.message);

@@ -46,16 +46,12 @@ onMounted(() => {
   watch(
     () => props.language,
     () => {
-      codeEditor.value = monaco.editor.create(codeEditorRef.value, {
-        value: props.value,
-        language: props.language,
-        minimap: {
-          enabled: false,
-        },
-        readOnly: false,
-        theme: "vs-dark",
-        automaticLayout: true,
-      });
+      if (codeEditor.value) {
+        monaco.editor.setModelLanguage(
+          toRaw(codeEditor.value).getModel(),
+          props.language
+        );
+      }
     }
   );
 

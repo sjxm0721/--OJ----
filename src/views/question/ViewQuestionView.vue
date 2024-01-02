@@ -39,7 +39,11 @@
       </a-col>
       <a-col :md="12" :xs="24">
         <a-form :model="form" layout="inline">
-          <a-form-item field="title" label="编程语言" style="min-width: 240px">
+          <a-form-item
+            field="language"
+            label="编程语言"
+            style="min-width: 240px"
+          >
             <a-select
               v-model="form.language"
               :style="{ width: '320px' }"
@@ -71,7 +75,6 @@ import {
   Question,
   QuestionControllerService,
   QuestionSubmitAddRequest,
-  QuestionSubmitControllerService,
   QuestionVO,
 } from "../../../generated";
 import { onMounted, ref, watchEffect, defineProps, withDefaults } from "vue";
@@ -110,7 +113,7 @@ const doSubmit = async () => {
   if (!question.value!.id) {
     return;
   }
-  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
     ...form.value,
     questionId: question.value!.id,
   });
