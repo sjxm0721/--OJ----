@@ -18,8 +18,15 @@
         />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 120px"
+        <a-button type="primary" html-type="submit" style="width: 100px"
           >登录</a-button
+        >
+        <a-button
+          type="primary"
+          status="success"
+          @click="toUserLoginPage"
+          style="width: 100px; margin-left: 10px"
+          >注册</a-button
         >
       </a-form-item>
     </a-form>
@@ -31,6 +38,7 @@ import { reactive } from "vue";
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import { message } from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/modules/user";
 import { useStore } from "vuex";
 /**
  * 表单信息
@@ -38,6 +46,7 @@ import { useStore } from "vuex";
 
 const router = useRouter();
 const store = useStore();
+const userStore = useUserStore();
 
 const form = reactive({
   userAccount: "",
@@ -51,7 +60,7 @@ const handleSubmit = async () => {
   const res = await UserControllerService.userLoginUsingPost(form);
   //登录成功跳转主页
   if (res.code === 0) {
-    await store.dispatch("getLoginUser");
+    await userStore.getLoginUser();
     router.push({
       path: "/",
       replace: true,
@@ -59,5 +68,14 @@ const handleSubmit = async () => {
   } else {
     message.error("登录失败" + res.message);
   }
+};
+
+/**
+ * 跳转到用户注册页面
+ */
+const toUserLoginPage = () => {
+  router.push({
+    path: "/user/register",
+  });
 };
 </script>

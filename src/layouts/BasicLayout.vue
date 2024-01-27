@@ -7,7 +7,7 @@
       <a-layout-content class="content">
         <router-view></router-view>
       </a-layout-content>
-      <a-layout-footer class="footer">66666</a-layout-footer>
+      <a-layout-footer class="footer">欢迎来到夏目のOJ</a-layout-footer>
     </a-layout>
   </div>
 </template>
